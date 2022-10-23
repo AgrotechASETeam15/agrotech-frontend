@@ -4,8 +4,9 @@ import React from 'react';
 const Layout = ({ children }) => {
   return (
     <>
+      {' '}
+      {children}
       <Box position={'relative'}>
-        {children}
         <Image
           position={'fixed'}
           //  position: fixed;

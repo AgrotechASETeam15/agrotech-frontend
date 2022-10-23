@@ -23,7 +23,7 @@ const LogIn = () => {
           // text-align: center;
           // color: #224957;
 
-          fontfamily={'Lexend Deca'}
+          fontFamily={'Lexend Deca'}
           fontStyle={'normal'}
           fontWeight={'400'}
           fontSize={'64px'}
@@ -35,7 +35,7 @@ const LogIn = () => {
       </Flex>
       <Flex justifyContent={'center'} alignItems={'center'}>
         <Text
-          fontfamily={'Lexend Deca'}
+          fontFamily={'Lexend Deca'}
           fontStyle={'normal'}
           fontWeight={'400'}
           fontSize={'16px'}
@@ -100,7 +100,7 @@ const LogIn = () => {
                   border={'#224957'}
                 />
                 <Text
-                  fontfamily={'Montserrat'}
+                  fontFamily={'Montserrat'}
                   fontStyle={'normal'}
                   fontWeight={'500'}
                   fontSize={'14px'}
@@ -111,7 +111,7 @@ const LogIn = () => {
                 </Text>
               </Flex>
               <Text
-                fontfamily={'Montserrat'}
+                fontFamily={'Montserrat'}
                 fontStyle={'normal'}
                 fontWeight={'500'}
                 fontSize={'14px'}
