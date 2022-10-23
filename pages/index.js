@@ -1,12 +1,11 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import { useRouter } from 'next/router';
+import LogIn from '../components/login/LogIn';
 
 export default function Home() {
+  const router = useRouter();
   return (
     <div>
-      Home
-      </div>
-
-  )
+      <LogIn />
+    </div>
+  );
 }
