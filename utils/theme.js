@@ -6,7 +6,6 @@ const light = '#E5E5E5';
 
 const theme = extendTheme({
   styles: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     global: (props) => ({
       body: {
         bg: mode(light, dark)(props),
