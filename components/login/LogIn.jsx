@@ -62,6 +62,7 @@ const LogIn = () => {
                 width={'300px'}
                 height={'50px'}
                 type='email'
+                color={'white'}
                 // background: #224957;
                 // border-radius: 10px;
 
@@ -86,6 +87,7 @@ const LogIn = () => {
                 _placeholder={{
                   color: '#FFFFFF',
                 }}
+                color={'white'}
               />
             </Flex>
             <Flex mt={'20px'} gap={'20px'}>
