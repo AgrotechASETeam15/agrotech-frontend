@@ -1,7 +1,9 @@
 import { Box, Button, Checkbox, Flex, Input, Text } from "@chakra-ui/react";
 import React from "react";
+import { useRouter } from "next/router";
 
 const SignUp = () => {
+  const router = useRouter();
   return (
     <Flex
       justifyContent={"center"}
@@ -114,6 +116,7 @@ const SignUp = () => {
                 _hover={{
                   background: "#20DF7F",
                 }}
+                onClick={() => router.push("/dashboard")}
               >
                 Register
               </Button>
