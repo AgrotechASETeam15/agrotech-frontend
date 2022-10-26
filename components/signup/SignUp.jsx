@@ -1,17 +1,14 @@
 import { Box, Button, Checkbox, Flex, Input, Text } from "@chakra-ui/react";
 import React from "react";
-import "@fontsource/lexend-deca";
-import "@fontsource/montserrat";
-import { useRouter } from "next/router";
 
-const LogIn = () => {
-  const router = useRouter();
+const SignUp = () => {
   return (
     <Flex
       justifyContent={"center"}
       alignItems={"center"}
       direction={"column"}
       gap={"40px"}
+      paddingTop={"45px"}
       //   height={'100vh'}
     >
       <Flex justifyContent={"center"} alignItems={"center"}>
@@ -31,9 +28,8 @@ const LogIn = () => {
           fontSize={"64px"}
           lineHeight={"80px"}
           color={"#224957"}
-          paddingTop={"45px"}
         >
-          AGROTECH
+          Register
         </Text>
       </Flex>
       <Flex justifyContent={"center"} alignItems={"center"}>
@@ -52,8 +48,23 @@ const LogIn = () => {
               <Input
                 width={"300px"}
                 height={"50px"}
+                type="text"
+                // background: #224957;
+                // border-radius: 10px;
+
+                _placeholder={{
+                  color: "#FFFFFF",
+                }}
+                background={"#224957"}
+                borderRadius={"10px"}
+                name="name"
+                id="name"
+                placeholder="Name"
+              />
+              <Input
+                width={"300px"}
+                height={"50px"}
                 type="email"
-                color={"white"}
                 // background: #224957;
                 // border-radius: 10px;
 
@@ -78,42 +89,20 @@ const LogIn = () => {
                 _placeholder={{
                   color: "#FFFFFF",
                 }}
-                color={"white"}
               />
-            </Flex>
-            <Flex mt={"20px"} gap={"20px"}>
-              <Flex
-                gap={`10px`}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
-                <Checkbox
-                  borderRadius={"5px"}
-                  background={"#224957"}
-                  border={"#224957"}
-                />
-                <Text
-                  fontFamily={"Montserrat"}
-                  fontStyle={"normal"}
-                  fontWeight={"500"}
-                  fontSize={"14px"}
-                  lineHeight={"17px"}
-                  color={"#093545"}
-                >
-                  Remember me
-                </Text>
-              </Flex>
-              <Text
-                fontFamily={"Montserrat"}
-                fontStyle={"normal"}
-                fontWeight={"500"}
-                fontSize={"14px"}
-                lineHeight={"17px"}
-                color={"#093545"}
-                cursor={"pointer"}
-              >
-                Forgot password?
-              </Text>
+              <Input
+                width={"300px"}
+                height={"50px"}
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                placeholder="Confirm Password"
+                background={"#224957"}
+                borderRadius={"10px"}
+                _placeholder={{
+                  color: "#FFFFFF",
+                }}
+              />
             </Flex>
             <Flex justifyContent={"center"} alignItems={"center"} mt={"20px"}>
               <Button
@@ -125,9 +114,8 @@ const LogIn = () => {
                 _hover={{
                   background: "#20DF7F",
                 }}
-                onClick={() => router.push("/dashboard")}
               >
-                Sign in
+                Register
               </Button>
             </Flex>
           </Flex>
@@ -137,4 +125,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default SignUp;
