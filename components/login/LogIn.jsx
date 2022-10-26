@@ -12,7 +12,6 @@ const LogIn = () => {
       alignItems={"center"}
       direction={"column"}
       gap={"40px"}
-      paddingTop={"45px"}
       //   height={'100vh'}
     >
       <Flex justifyContent={"center"} alignItems={"center"}>
@@ -32,8 +31,9 @@ const LogIn = () => {
           fontSize={"64px"}
           lineHeight={"80px"}
           color={"#224957"}
+          paddingTop={"45px"}
         >
-          Sign in
+          AGROTECH
         </Text>
       </Flex>
       <Flex justifyContent={"center"} alignItems={"center"}>
@@ -53,6 +53,7 @@ const LogIn = () => {
                 width={"300px"}
                 height={"50px"}
                 type="email"
+                color={"white"}
                 // background: #224957;
                 // border-radius: 10px;
 
@@ -77,6 +78,7 @@ const LogIn = () => {
                 _placeholder={{
                   color: "#FFFFFF",
                 }}
+                color={"white"}
               />
             </Flex>
             <Flex mt={"20px"} gap={"20px"}>
@@ -108,6 +110,7 @@ const LogIn = () => {
                 fontSize={"14px"}
                 lineHeight={"17px"}
                 color={"#093545"}
+                cursor={"pointer"}
               >
                 Forgot password?
               </Text>
