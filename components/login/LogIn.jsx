@@ -1,18 +1,21 @@
-import { Box, Button, Checkbox, Flex, Input, Text } from '@chakra-ui/react';
-import React from 'react';
-import '@fontsource/lexend-deca';
-import '@fontsource/montserrat';
+import { Box, Button, Checkbox, Flex, Input, Text } from "@chakra-ui/react";
+import React from "react";
+import "@fontsource/lexend-deca";
+import "@fontsource/montserrat";
+import { useRouter } from "next/router";
 
 const LogIn = () => {
+  const router = useRouter();
   return (
     <Flex
-      justifyContent={'center'}
-      alignItems={'center'}
-      direction={'column'}
-      gap={'40px'}
+      justifyContent={"center"}
+      alignItems={"center"}
+      direction={"column"}
+      gap={"40px"}
+      paddingTop={"45px"}
       //   height={'100vh'}
     >
-      <Flex justifyContent={'center'} alignItems={'center'}>
+      <Flex justifyContent={"center"} alignItems={"center"}>
         <Text
           // font-family: 'Lexend Deca';
           // font-style: normal;
@@ -23,114 +26,103 @@ const LogIn = () => {
           // text-align: center;
           // color: #224957;
 
-          fontFamily={'Lexend Deca'}
-          fontStyle={'normal'}
-          fontWeight={'400'}
-          fontSize={'64px'}
-          lineHeight={'80px'}
-          color={'#224957'}
+          fontFamily={"Lexend Deca"}
+          fontStyle={"normal"}
+          fontWeight={"400"}
+          fontSize={"64px"}
+          lineHeight={"80px"}
+          color={"#224957"}
         >
           Sign in
         </Text>
       </Flex>
-      <Flex justifyContent={'center'} alignItems={'center'}>
-        <Text
-          fontFamily={'Lexend Deca'}
-          fontStyle={'normal'}
-          fontWeight={'400'}
-          fontSize={'16px'}
-          lineHeight={'20px'}
-          color={'#224957'}
-        >
-          Sign in and start managing your candidates!
-        </Text>
-      </Flex>
-      <Flex justifyContent={'center'} alignItems={'center'}>
+      <Flex justifyContent={"center"} alignItems={"center"}>
         <form>
           <Flex
-            justifyContent={'center'}
-            alignItems={'center'}
-            direction={'column'}
+            justifyContent={"center"}
+            alignItems={"center"}
+            direction={"column"}
           >
             <Flex
-              gap={'35px'}
-              direction={'column'}
-              justifyContent={'center'}
-              alignItems={'center'}
+              gap={"35px"}
+              direction={"column"}
+              justifyContent={"center"}
+              alignItems={"center"}
             >
               <Input
-                width={'300px'}
-                height={'50px'}
-                type='email'
+                width={"300px"}
+                height={"50px"}
+                type="email"
                 // background: #224957;
                 // border-radius: 10px;
 
                 _placeholder={{
-                  color: '#FFFFFF',
+                  color: "#FFFFFF",
                 }}
-                background={'#224957'}
-                borderRadius={'10px'}
-                name='email'
-                id='email'
-                placeholder='Email'
+                background={"#224957"}
+                borderRadius={"10px"}
+                name="email"
+                id="email"
+                placeholder="Email"
               />
               <Input
-                width={'300px'}
-                height={'50px'}
-                type='password'
-                name='password'
-                id='password'
-                placeholder='Password'
-                background={'#224957'}
-                borderRadius={'10px'}
+                width={"300px"}
+                height={"50px"}
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                background={"#224957"}
+                borderRadius={"10px"}
                 _placeholder={{
-                  color: '#FFFFFF',
+                  color: "#FFFFFF",
                 }}
               />
             </Flex>
-            <Flex mt={'20px'} gap={'20px'}>
+            <Flex mt={"20px"} gap={"20px"}>
               <Flex
                 gap={`10px`}
-                justifyContent={'center'}
-                alignItems={'center'}
+                justifyContent={"center"}
+                alignItems={"center"}
               >
                 <Checkbox
-                  borderRadius={'5px'}
-                  background={'#224957'}
-                  border={'#224957'}
+                  borderRadius={"5px"}
+                  background={"#224957"}
+                  border={"#224957"}
                 />
                 <Text
-                  fontFamily={'Montserrat'}
-                  fontStyle={'normal'}
-                  fontWeight={'500'}
-                  fontSize={'14px'}
-                  lineHeight={'17px'}
-                  color={'#093545'}
+                  fontFamily={"Montserrat"}
+                  fontStyle={"normal"}
+                  fontWeight={"500"}
+                  fontSize={"14px"}
+                  lineHeight={"17px"}
+                  color={"#093545"}
                 >
                   Remember me
                 </Text>
               </Flex>
               <Text
-                fontFamily={'Montserrat'}
-                fontStyle={'normal'}
-                fontWeight={'500'}
-                fontSize={'14px'}
-                lineHeight={'17px'}
-                color={'#093545'}
+                fontFamily={"Montserrat"}
+                fontStyle={"normal"}
+                fontWeight={"500"}
+                fontSize={"14px"}
+                lineHeight={"17px"}
+                color={"#093545"}
               >
                 Forgot password?
               </Text>
             </Flex>
-            <Flex justifyContent={'center'} alignItems={'center'} mt={'20px'}>
+            <Flex justifyContent={"center"} alignItems={"center"} mt={"20px"}>
               <Button
-                width={'300px'}
-                height={'50px'}
-                background={'#20DF7F'}
-                borderRadius={'10px'}
-                color={'#224957'}
+                width={"300px"}
+                height={"50px"}
+                background={"#20DF7F"}
+                borderRadius={"10px"}
+                color={"#224957"}
                 _hover={{
-                  background: '#20DF7F',
+                  background: "#20DF7F",
                 }}
+                onClick={() => router.push("/dashboard")}
               >
                 Sign in
               </Button>
