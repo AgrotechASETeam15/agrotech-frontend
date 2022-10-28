@@ -82,7 +82,7 @@ const DripIrrigation = () => {
           </Thead>
           <Tbody>
             {kits.map((kit) => (
-              <Tr id={kit.id}>
+              <Tr key={kit.id}>
                 <Td
                   cursor={"pointer"}
                   onClick={() => router.push(`/kit-configuration?id=${kit.id}`)}
