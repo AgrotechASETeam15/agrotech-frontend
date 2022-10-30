@@ -47,13 +47,11 @@ const getAccessToken = () => {
 // ERROR HANDLER
 const handleError = (error) => {
   if (error && error.response && error.response.status) {
-    console.error(error);
-
     switch (error.response.status) {
       case 302: {
         Alert({
           title: "Failed",
-          message: error.response.data.message,
+          message: error.response.data,
           buttonTextYes: "Ok",
           closeOnClickOutside: false,
         });
@@ -67,11 +65,10 @@ const handleError = (error) => {
       case 401:
         Alert({
           title: "Unauthorized",
-          message: error.response.data.error,
+          message: error.response.data,
           buttonTextYes: "Ok",
           handleClickYes: () => {
             window.location.href = "/";
-            window.location.reload();
           },
           closeOnClickOutside: false,
         });
@@ -89,7 +86,13 @@ const handleError = (error) => {
           buttonTextYes: "Ok",
         });
         return null;
-
+      case 409:
+        Alert({
+          title: "Duplication",
+          message: error.response.data,
+          buttonTextYes: "Ok",
+        });
+        return null;
       case 500:
         Alert({
           title: "Server Error",
@@ -148,12 +151,10 @@ const returnResponse = (response) => {
     response.status &&
     (response.status === 200 || response.status === 201)
   ) {
-    // response.data.apiStatus = response.status;
+    response.data.apiStatus = response.status;
     return response.data;
   } else if (response && response.status && response.status === 400) {
     return response;
-  } else {
-    return null;
   }
 };
 

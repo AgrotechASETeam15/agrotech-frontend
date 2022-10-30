@@ -1,6 +1,12 @@
 import { Box, Button, Checkbox, Flex, Input, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+
+// api
+import { postData } from "../../pages/api";
+
+// utils
+import Alert from "../../utils/Alert";
 import {
   ValidateEmail,
   ValidateName,
@@ -23,49 +29,67 @@ const SignUp = () => {
     name: "",
   });
 
+  // validation
+  const validation = () => {
+    let error = {
+      name: ValidateName(credentials.name),
+      email: ValidateEmail(credentials.email),
+      password: ValidatePassword(credentials.password),
+      confirmPassword:
+        credentials.password !== credentials.confirmPassword
+          ? "Password not matching"
+          : ValidatePassword(credentials.confirmPassword),
+    };
+    setErrors(error);
+    if (
+      error.email === "" &&
+      error.password === "" &&
+      error.name === "" &&
+      error.confirmPassword === ""
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   /**
    * updating input field data and error text messages
    */
   const updateCredentials = (e) => {
+    let error = {};
     switch (e.target.name) {
+      case "name":
+        error[e.target.name] = ValidateName(e.target.value);
+        break;
       case "email":
-        setErrors({ ...errors, email: ValidateEmail(e.target.value) });
+        error[e.target.name] = ValidateEmail(e.target.value);
         break;
       case "password":
-        setErrors({ ...errors, password: ValidatePassword(e.target.value) });
+        error[e.target.name] = ValidatePassword(e.target.value);
         break;
       case "confirmPassword":
-        setErrors({
-          ...errors,
-          confirmPassword: ValidatePassword(e.target.value),
-        });
-        break;
-      case "name":
-        setErrors({ ...errors, name: ValidateName(e.target.value) });
+        error[e.target.name] = ValidatePassword(e.target.value);
         break;
       default:
         break;
     }
+    setErrors({ ...errors, ...error });
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
-    setisLoading(true);
-    if (credentials.password !== credentials.confirmPassword) {
-      setErrors({ ...errors, confirmPassword: "Password is not matching" });
-      return;
-    }
-    if (
-      errors.email === "" &&
-      errors.password === "" &&
-      errors.name === "" &&
-      errors.confirmPassword === ""
-    ) {
+    const isvalidated = validation();
+    // if (credentials.password !== credentials.confirmPassword) {
+    //   setisValid(false);
+    //   setErrors({ ...errors, confirmPassword: "Password is not matching" });
+    //   return;
+    // }
+    if (isvalidated) {
       try {
-        const response = await postData(``, credentials, false);
+        const response = await postData(`email/register`, credentials, false);
         if (response && response.apiStatus === 200) {
           router.push("/dashboard");
-        } else {
+        } else if (response && response.status === 400) {
           Alert({
             title: "Error",
             message: response.message.message

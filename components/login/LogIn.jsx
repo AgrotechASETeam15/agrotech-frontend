@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Flex, Input, Text } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect, useRef } from "react";
 import "@fontsource/lexend-deca";
 import "@fontsource/montserrat";
 import { useRouter } from "next/router";
@@ -18,31 +18,49 @@ const LogIn = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
 
+  // validation
+  const validation = () => {
+    let error = {
+      email: ValidateEmail(credentials.email),
+      password: ValidatePassword(credentials.password),
+    };
+    setErrors(error);
+    if (error.email === "" && error.password === "") {
+      return true;
+    } else {
+      return false;
+    }
+  };
   /**
    * updating input field data and error text messages
    */
   const updateCredentials = (e) => {
+    let error = {};
     switch (e.target.name) {
       case "email":
-        setErrors({ ...errors, email: ValidateEmail(e.target.value) });
+        error[e.target.name] = ValidateEmail(e.target.value);
         break;
       case "password":
-        setErrors({ ...errors, password: ValidatePassword(e.target.value) });
+        error[e.target.name] = ValidatePassword(e.target.value);
         break;
       default:
         break;
     }
+    setErrors({ ...errors, ...error });
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
+  console.log(errors);
   const handleSubmit = async () => {
+    const isvalidated = validation();
+    console.log(isvalidated);
     setisLoading(true);
-    if (errors.email === "" && errors.password === "") {
-      console.log("hello");
+    if (isvalidated) {
       try {
-        const response = await postData(``, credentials, false);
+        const response = await postData(`email/login`, credentials, false);
         if (response && response.apiStatus === 200) {
           router.push("/dashboard");
-        } else {
+        } else if (response && response.status === 400) {
+          console.log(response);
           Alert({
             title: "Error",
             message: response.message.message
@@ -158,7 +176,7 @@ const LogIn = () => {
                 _placeholder={{
                   color: "#000000",
                 }}
-                color={"white"}
+                color={"#000000"}
                 onChange={(e) => updateCredentials(e)}
               />
               <Text
