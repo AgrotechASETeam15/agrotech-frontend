@@ -69,7 +69,7 @@ const LogIn = () => {
     <Spinner />
   ) : (
     <Flex
-      justifyContent={"center"}
+      justifyContent={"flex"}
       alignItems={"center"}
       direction={"column"}
       gap={"40px"}
@@ -86,17 +86,18 @@ const LogIn = () => {
           // text-align: center;
           // color: #224957;
 
-          fontFamily={"Lexend Deca"}
+          fontFamily={"Impact"}
           fontStyle={"normal"}
           fontWeight={"400"}
           fontSize={"64px"}
           lineHeight={"80px"}
           color={"#224957"}
-          paddingTop={"45px"}
+          paddingTop={"100px"}
         >
           AGROTECH
         </Text>
       </Flex>
+
       <Flex justifyContent={"center"} alignItems={"center"}>
         <form>
           <Flex
@@ -115,12 +116,15 @@ const LogIn = () => {
                 width={"300px"}
                 height={"50px"}
                 type="email"
-                color={"white"}
+                borderColor={"#20DF7F"}
+                //color={'white'}
                 // background: #224957;
                 // border-radius: 10px;
-
+                _hover={{
+                  borderColor: "#89F3BD",
+                }}
                 _placeholder={{
-                  color: "#FFFFFF",
+                  color: "#000000",
                 }}
                 background={"#224957"}
                 borderRadius={"10px"}
@@ -145,10 +149,14 @@ const LogIn = () => {
                 name="password"
                 id="password"
                 placeholder="Password"
-                background={"#224957"}
+                background={"#FFFFFF"}
+                borderColor={"#20DF7F"}
                 borderRadius={"10px"}
+                _hover={{
+                  borderColor: "#89F3BD",
+                }}
                 _placeholder={{
-                  color: "#FFFFFF",
+                  color: "#000000",
                 }}
                 color={"white"}
                 onChange={(e) => updateCredentials(e)}
@@ -163,39 +171,19 @@ const LogIn = () => {
                 {errors.password}
               </Text>
             </Flex>
-            <Flex mt={"40px"} gap={"20px"}>
-              <Flex
-                gap={`10px`}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
-                <Checkbox
-                  borderRadius={"5px"}
-                  background={"#224957"}
-                  border={"#224957"}
-                />
+            <Flex mt={"18px"} gap={"14px"}>
+              <a href="#forgot">
                 <Text
                   fontFamily={"Montserrat"}
                   fontStyle={"normal"}
                   fontWeight={"500"}
                   fontSize={"14px"}
                   lineHeight={"17px"}
-                  color={"#093545"}
+                  color={"#000000"}
                 >
-                  Remember me
+                  Forgot Password?
                 </Text>
-              </Flex>
-              <Text
-                fontFamily={"Montserrat"}
-                fontStyle={"normal"}
-                fontWeight={"500"}
-                fontSize={"14px"}
-                lineHeight={"17px"}
-                color={"#093545"}
-                cursor={"pointer"}
-              >
-                Forgot password?
-              </Text>
+              </a>
             </Flex>
             <Flex justifyContent={"center"} alignItems={"center"} mt={"20px"}>
               <Button
@@ -203,14 +191,43 @@ const LogIn = () => {
                 height={"50px"}
                 background={"#20DF7F"}
                 borderRadius={"10px"}
-                color={"#224957"}
+                color={"#ffffff"}
                 _hover={{
-                  background: "#20DF7F",
+                  background: "#3FE992",
+                  boxShadow: "2px 2px",
                 }}
                 onClick={() => handleSubmit()}
               >
-                Sign in
+                Log In
               </Button>
+            </Flex>
+            <Flex justifyContent={"flex-end"} alignItems={"center"}>
+              <Text
+                fontFamily={"Lexend Deca"}
+                fontStyle={"normal"}
+                fontWeight={"400"}
+                fontSize={"16px"}
+                lineHeight={"20px"}
+                color={"#000000"}
+                paddingTop={"15px"}
+              >
+                New User?
+              </Text>
+              <Text
+                fontFamily={"Lexend Deca"}
+                fontStyle={"normal"}
+                textDecoration={"underline"}
+                fontWeight={"400"}
+                fontSize={"16px"}
+                paddingLeft={"7px"}
+                lineHeight={"20px"}
+                color={"#000000"}
+                paddingTop={"15px"}
+                cursor={"pointer"}
+                onClick={() => router.push("/sign-up")}
+              >
+                Sign Up
+              </Text>
             </Flex>
           </Flex>
         </form>
