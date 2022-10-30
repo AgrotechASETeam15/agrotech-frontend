@@ -1,12 +1,73 @@
 import { Box, Button, Checkbox, Flex, Input, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "@fontsource/lexend-deca";
 import "@fontsource/montserrat";
 import { useRouter } from "next/router";
 
+// api
+import { postData } from "../../pages/api";
+
+// utils
+import Alert from "../../utils/Alert";
+import { ValidateEmail, ValidatePassword } from "../../utils/validations";
+import Spinner from "../loader/loader";
+
 const LogIn = () => {
   const router = useRouter();
-  return (
+  const [isLoading, setisLoading] = useState(false);
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: "", password: "" });
+
+  /**
+   * updating input field data and error text messages
+   */
+  const updateCredentials = (e) => {
+    switch (e.target.name) {
+      case "email":
+        setErrors({ ...errors, email: ValidateEmail(e.target.value) });
+        break;
+      case "password":
+        setErrors({ ...errors, password: ValidatePassword(e.target.value) });
+        break;
+      default:
+        break;
+    }
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = async () => {
+    setisLoading(true);
+    if (errors.email === "" && errors.password === "") {
+      console.log("hello");
+      try {
+        const response = await postData(``, credentials, false);
+        if (response && response.apiStatus === 200) {
+          router.push("/dashboard");
+        } else {
+          Alert({
+            title: "Error",
+            message: response.message.message
+              ? response.message.message
+              : "Something went wrong. Please try again after sometime",
+            isCloseButton: false,
+            buttonTextYes: "Ok",
+          });
+        }
+      } catch (e) {
+        console.log(e);
+        setisLoading(false);
+        Alert({
+          title: "Error",
+          message: "Something went wrong. Please try again after sometime",
+          isCloseButton: false,
+          buttonTextYes: "Ok",
+        });
+      }
+    }
+    setisLoading(false);
+  };
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <Flex
       justifyContent={"center"}
       alignItems={"center"}
@@ -48,6 +109,7 @@ const LogIn = () => {
               direction={"column"}
               justifyContent={"center"}
               alignItems={"center"}
+              position={"relative"}
             >
               <Input
                 width={"300px"}
@@ -65,7 +127,17 @@ const LogIn = () => {
                 name="email"
                 id="email"
                 placeholder="Email"
+                onChange={(e) => updateCredentials(e)}
               />
+              <Text
+                color={"#ff0000"}
+                position={"absolute"}
+                top={"50"}
+                left={"2"}
+                fontSize={"12"}
+              >
+                {errors.email}
+              </Text>
               <Input
                 width={"300px"}
                 height={"50px"}
@@ -79,9 +151,19 @@ const LogIn = () => {
                   color: "#FFFFFF",
                 }}
                 color={"white"}
+                onChange={(e) => updateCredentials(e)}
               />
+              <Text
+                color={"#ff0000"}
+                position={"absolute"}
+                bottom={"-5"}
+                left={"2"}
+                fontSize={"12"}
+              >
+                {errors.password}
+              </Text>
             </Flex>
-            <Flex mt={"20px"} gap={"20px"}>
+            <Flex mt={"40px"} gap={"20px"}>
               <Flex
                 gap={`10px`}
                 justifyContent={"center"}
@@ -125,7 +207,7 @@ const LogIn = () => {
                 _hover={{
                   background: "#20DF7F",
                 }}
-                onClick={() => router.push("/dashboard")}
+                onClick={() => handleSubmit()}
               >
                 Sign in
               </Button>
