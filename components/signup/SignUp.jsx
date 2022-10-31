@@ -114,15 +114,16 @@ const SignUp = () => {
   };
   console.log(errors);
   return (
+    
     <Flex
       justifyContent={"center"}
       alignItems={"center"}
       direction={"column"}
-      gap={"40px"}
-      paddingTop={"45px"}
+      gap={"10px"}
+      paddingTop={"30px"}
       //   height={'100vh'}
-    >
-      <Flex justifyContent={"center"} alignItems={"center"}>
+    > 
+    <Flex justifyContent={"center"} alignItems={"center"}>
         <Text
           // font-family: 'Lexend Deca';
           // font-style: normal;
@@ -133,16 +134,18 @@ const SignUp = () => {
           // text-align: center;
           // color: #224957;
 
-          fontFamily={"Lexend Deca"}
+          fontFamily={"Impact"}
           fontStyle={"normal"}
           fontWeight={"400"}
           fontSize={"64px"}
           lineHeight={"80px"}
           color={"#224957"}
+          // paddingTop={"100px"}
         >
-          Register
+          AGROTECH
         </Text>
       </Flex>
+      
       <Flex justifyContent={"center"} alignItems={"center"}>
         <form>
           <Flex
@@ -163,11 +166,11 @@ const SignUp = () => {
                 type="text"
                 // background: #224957;
                 // border-radius: 10px;
-
+                borderColor= {"#89F3BD"}
                 _placeholder={{
-                  color: "#FFFFFF",
+                  color: "#000000",
                 }}
-                background={"#224957"}
+                background={"#FFFFFF"}
                 borderRadius={"10px"}
                 name="name"
                 id="name"
@@ -189,11 +192,11 @@ const SignUp = () => {
                 type="email"
                 // background: #224957;
                 // border-radius: 10px;
-
+                borderColor= {"#89F3BD"}
                 _placeholder={{
-                  color: "#FFFFFF",
+                  color: "#000000",
                 }}
-                background={"#224957"}
+                background={"#FFFFFF"}
                 borderRadius={"10px"}
                 name="email"
                 id="email"
@@ -215,11 +218,12 @@ const SignUp = () => {
                 type="password"
                 name="password"
                 id="password"
+                borderColor= {"#89F3BD"}
                 placeholder="Password"
-                background={"#224957"}
+                background={"#FFFFFF"}
                 borderRadius={"10px"}
                 _placeholder={{
-                  color: "#FFFFFF",
+                  color: "#000000",
                 }}
                 onChange={(e) => updateCredentials(e)}
               />
@@ -239,10 +243,11 @@ const SignUp = () => {
                 name="confirmPassword"
                 id="confirmPassword"
                 placeholder="Confirm Password"
-                background={"#224957"}
+                borderColor= {"#89F3BD"}
+                background={"#FFFFFF"}
                 borderRadius={"10px"}
                 _placeholder={{
-                  color: "#FFFFFF",
+                  color: "#000000",
                 }}
                 onChange={(e) => updateCredentials(e)}
               />
@@ -270,6 +275,34 @@ const SignUp = () => {
               >
                 Register
               </Button>
+            </Flex>
+            <Flex justifyContent={"flex-end"} alignItems={"center"}>
+              <Text
+                fontFamily={"Lexend Deca"}
+                fontStyle={"normal"}
+                fontWeight={"400"}
+                fontSize={"16px"}
+                lineHeight={"20px"}
+                color={"#000000"}
+                paddingTop={"15px"}
+              >
+                Already a User?
+              </Text>
+              <Text
+                fontFamily={"Lexend Deca"}
+                fontStyle={"normal"}
+                textDecoration={"underline"}
+                fontWeight={"400"}
+                fontSize={"16px"}
+                paddingLeft={"7px"}
+                lineHeight={"20px"}
+                color={"#000000"}
+                paddingTop={"15px"}
+                cursor={"pointer"}
+                onClick={() => router.push("/login")}
+              >
+                Log In
+              </Text>
             </Flex>
           </Flex>
         </form>
