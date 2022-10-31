@@ -144,7 +144,7 @@ const LogIn = () => {
                 _placeholder={{
                   color: "#000000",
                 }}
-                background={"#224957"}
+                background={"#FFFFFF"}
                 borderRadius={"10px"}
                 name="email"
                 id="email"
