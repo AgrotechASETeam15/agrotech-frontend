@@ -79,7 +79,12 @@ const KitConfiguration = () => {
             alignItems={"center"}
           >
             <Text>Valve</Text>
-            <Text color={"#0000FF"}>{kitConfig.valve}</Text>
+            <Text
+              color={kitConfig.valve === "Active" ? "#0000FF" : "#ff0000"}
+              cursor={"pointer"}
+            >
+              {kitConfig.valve}
+            </Text>
           </Flex>
         </Box>
         <Button

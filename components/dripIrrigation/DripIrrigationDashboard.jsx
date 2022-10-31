@@ -96,6 +96,7 @@ const DripIrrigation = () => {
                     md: "150px",
                     sm: "100px",
                   }}
+                  cursor={"pointer"}
                   onClick={() => setisOpen(true)}
                 >
                   <Text color={"#ff0000"}> Delete</Text>
