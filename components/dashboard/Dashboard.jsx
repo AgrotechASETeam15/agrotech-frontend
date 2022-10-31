@@ -51,9 +51,11 @@ const Dashboard = () => {
         <Button
           width={"300px"}
           height={"50px"}
-          background={"#224957"}
+          background={"#FFFFFF"}
+          borderWidth={'1px'}
+          borderColor={"#20DF7F"}
           borderRadius={"10px"}
-          color={"#ffffff"}
+          color={"#000000"}
           _hover={{
             background: "#20DF7F",
           }}
@@ -64,9 +66,11 @@ const Dashboard = () => {
         <Button
           width={"300px"}
           height={"50px"}
-          background={"#224957"}
+          background={"#FFFFFF"}
+          borderWidth={'1px'}
+          borderColor={"#20DF7F"}
           borderRadius={"10px"}
-          color={"#ffffff"}
+          color={"#000000"}
           _hover={{
             background: "#20DF7F",
           }}
@@ -77,9 +81,11 @@ const Dashboard = () => {
         <Button
           width={"300px"}
           height={"50px"}
-          background={"#224957"}
+          background={"#FFFFFF"}
+          borderWidth={'1px'}
+          borderColor={"#20DF7F"}
           borderRadius={"10px"}
-          color={"#ffffff"}
+          color={"#000000"}
           _hover={{
             background: "#20DF7F",
           }}
