@@ -146,7 +146,7 @@ const SignUp = () => {
         </Text>
       </Flex>
       
-      <Flex justifyContent={"center"} alignItems={"center"}>
+      <Flex justifyContent={"center"} alignItems={"center"} zIndex={"1"}>
         <form>
           <Flex
             justifyContent={"center"}
