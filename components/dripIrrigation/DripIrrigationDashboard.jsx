@@ -24,6 +24,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import {ImBin2} from "react-icons/im"
 
 const DripIrrigation = () => {
   const router = useRouter();
@@ -61,9 +62,11 @@ const DripIrrigation = () => {
         <Button
           width={"150px"}
           height={"30px"}
-          background={"#224957"}
+          background={"#ffffff"}
           borderRadius={"10px"}
-          color={"#ffffff"}
+          borderWidth={"2px"}
+          borderColor={"#20DF7F"}
+          color={"#000000"}
           _hover={{
             background: "#20DF7F",
           }}
@@ -99,7 +102,11 @@ const DripIrrigation = () => {
                   cursor={"pointer"}
                   onClick={() => setisOpen(true)}
                 >
-                  <Text color={"#ff0000"}> Delete</Text>
+                  <Flex alignItems={"center"}>
+                    <ImBin2 color={"#ff0000"} />
+                    <Text color={"#ff0000"} paddingLeft={"7px"} > Delete</Text>
+                  </Flex>
+                  
                 </Td>
               </Tr>
             ))}
