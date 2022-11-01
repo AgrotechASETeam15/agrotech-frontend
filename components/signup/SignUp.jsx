@@ -169,6 +169,7 @@ const SignUp = () => {
                 _placeholder={{
                   color: "#000000",
                 }}
+                color={"#000000"}
                 background={"#FFFFFF"}
                 borderRadius={"10px"}
                 name="name"
@@ -200,7 +201,7 @@ const SignUp = () => {
                 name="email"
                 id="email"
                 placeholder="Email"
-                color={"#ffffff"}
+                color={"#000000"}
                 onChange={(e) => updateCredentials(e)}
               />
               <Text
@@ -225,7 +226,7 @@ const SignUp = () => {
                 _placeholder={{
                   color: "#000000",
                 }}
-                color={"#ffffff"}
+                color={"#000000"}
                 onChange={(e) => updateCredentials(e)}
               />
               <Text
@@ -250,7 +251,7 @@ const SignUp = () => {
                 _placeholder={{
                   color: "#000000",
                 }}
-                color={"#ffffff"}
+                color={"#000000"}
                 onChange={(e) => updateCredentials(e)}
               />
               <Text
