@@ -88,7 +88,7 @@ const SignUp = () => {
       try {
         const response = await postData(`email/register`, credentials, false);
         if (response && response.apiStatus === 200) {
-          router.push("/dashboard");
+          router.push("/");
         } else if (response && response.status === 400) {
           Alert({
             title: "Error",
@@ -114,7 +114,6 @@ const SignUp = () => {
   };
   console.log(errors);
   return (
-    
     <Flex
       justifyContent={"center"}
       alignItems={"center"}
@@ -122,8 +121,8 @@ const SignUp = () => {
       gap={"10px"}
       paddingTop={"30px"}
       //   height={'100vh'}
-    > 
-    <Flex justifyContent={"center"} alignItems={"center"}>
+    >
+      <Flex justifyContent={"center"} alignItems={"center"}>
         <Text
           // font-family: 'Lexend Deca';
           // font-style: normal;
@@ -145,7 +144,7 @@ const SignUp = () => {
           AGROTECH
         </Text>
       </Flex>
-      
+
       <Flex justifyContent={"center"} alignItems={"center"} zIndex={"1"}>
         <form>
           <Flex
@@ -166,10 +165,11 @@ const SignUp = () => {
                 type="text"
                 // background: #224957;
                 // border-radius: 10px;
-                borderColor= {"#89F3BD"}
+                borderColor={"#89F3BD"}
                 _placeholder={{
                   color: "#000000",
                 }}
+                color={"#000000"}
                 background={"#FFFFFF"}
                 borderRadius={"10px"}
                 name="name"
@@ -192,7 +192,7 @@ const SignUp = () => {
                 type="email"
                 // background: #224957;
                 // border-radius: 10px;
-                borderColor= {"#89F3BD"}
+                borderColor={"#89F3BD"}
                 _placeholder={{
                   color: "#000000",
                 }}
@@ -201,6 +201,7 @@ const SignUp = () => {
                 name="email"
                 id="email"
                 placeholder="Email"
+                color={"#000000"}
                 onChange={(e) => updateCredentials(e)}
               />
               <Text
@@ -218,13 +219,14 @@ const SignUp = () => {
                 type="password"
                 name="password"
                 id="password"
-                borderColor= {"#89F3BD"}
+                borderColor={"#89F3BD"}
                 placeholder="Password"
                 background={"#FFFFFF"}
                 borderRadius={"10px"}
                 _placeholder={{
                   color: "#000000",
                 }}
+                color={"#000000"}
                 onChange={(e) => updateCredentials(e)}
               />
               <Text
@@ -243,12 +245,13 @@ const SignUp = () => {
                 name="confirmPassword"
                 id="confirmPassword"
                 placeholder="Confirm Password"
-                borderColor= {"#89F3BD"}
+                borderColor={"#89F3BD"}
                 background={"#FFFFFF"}
                 borderRadius={"10px"}
                 _placeholder={{
                   color: "#000000",
                 }}
+                color={"#000000"}
                 onChange={(e) => updateCredentials(e)}
               />
               <Text
