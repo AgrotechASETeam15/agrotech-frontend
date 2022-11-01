@@ -88,7 +88,7 @@ const SignUp = () => {
       try {
         const response = await postData(`email/register`, credentials, false);
         if (response && response.apiStatus === 200) {
-          router.push("/dashboard");
+          router.push("/");
         } else if (response && response.status === 400) {
           Alert({
             title: "Error",
@@ -167,6 +167,7 @@ const SignUp = () => {
                 _placeholder={{
                   color: "#FFFFFF",
                 }}
+                color={"#ffffff"}
                 background={"#224957"}
                 borderRadius={"10px"}
                 name="name"
@@ -198,6 +199,7 @@ const SignUp = () => {
                 name="email"
                 id="email"
                 placeholder="Email"
+                color={"#ffffff"}
                 onChange={(e) => updateCredentials(e)}
               />
               <Text
@@ -221,6 +223,7 @@ const SignUp = () => {
                 _placeholder={{
                   color: "#FFFFFF",
                 }}
+                color={"#ffffff"}
                 onChange={(e) => updateCredentials(e)}
               />
               <Text
@@ -244,6 +247,7 @@ const SignUp = () => {
                 _placeholder={{
                   color: "#FFFFFF",
                 }}
+                color={"#ffffff"}
                 onChange={(e) => updateCredentials(e)}
               />
               <Text
