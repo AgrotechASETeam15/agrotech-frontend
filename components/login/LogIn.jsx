@@ -142,7 +142,7 @@ const LogIn = () => {
                   borderColor: "#89F3BD",
                 }}
                 _placeholder={{
-                  color: "#ffffff",
+                  color: "#000000",
                 }}
                 background={"#FFFFFF"}
                 borderRadius={"10px"}
