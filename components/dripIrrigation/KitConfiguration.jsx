@@ -13,16 +13,58 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import React, { useState, useRef } from "react";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
+import { getData } from "../../pages/api";
 
-const KitConfiguration = () => {
+import Alert from "../../utils/Alert";
+import Loader from "../loader/loader";
+
+const KitConfiguration = (props) => {
+  const router = useRouter();
+
   const [isOpen, setisOpen] = useState(false);
-  const [kitConfig, setkitConfig] = useState({
-    soilMoisture: 20,
-    valve: "Active",
-  });
-  const [editValue, seteditValue] = useState(kitConfig.soilMoisture);
-  return (
+  const [kitConfig, setkitConfig] = useState({ kit: {} });
+
+  const [isLoading, setisLoading] = useState(false);
+
+  const getKitData = async (id) => {
+    setisLoading(true);
+    try {
+      const response = await getData(`drip/get-kit/${id}`, false);
+      if (response && response.apiStatus === 200) {
+        setkitConfig(response.kit);
+      } else if (response && response.status === 400) {
+        Alert({
+          title: "Error",
+          message: response.message
+            ? response.message
+            : "Something went wrong. Please try again after sometime",
+          isCloseButton: false,
+          buttonTextYes: "Ok",
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      setisLoading(false);
+      Alert({
+        title: "Error",
+        message: "Something went wrong. Please try again after sometime",
+        isCloseButton: false,
+        buttonTextYes: "Ok",
+      });
+    }
+    setisLoading(false);
+  };
+  useEffect(() => {
+    if (!router.isReady) return;
+    getKitData(router.query.id);
+  }, [router.isReady]);
+
+  console.log(kitConfig);
+  return isLoading ? (
+    <Loader />
+  ) : (
     <Flex
       justifyContent={"center"}
       alignItems={"center"}
@@ -40,9 +82,10 @@ const KitConfiguration = () => {
           lineHeight={"80px"}
           color={"#224957"}
         >
-          Kit Configuration
+          Kit Monitoring
         </Text>
       </Flex>
+
       <Flex
         justifyContent={"center"}
         alignItems={"center"}
@@ -50,6 +93,7 @@ const KitConfiguration = () => {
         flexDirection={"column"}
         paddingTop={"60px"}
       >
+        <Text fontSize={20}>Kit Name: {kitConfig.kit_name}</Text>
         <Box
           maxW="lg"
           borderWidth="1px"
@@ -62,75 +106,85 @@ const KitConfiguration = () => {
             width={"400px"}
             alignItems={"center"}
           >
-            <Text>Soil moisture </Text>
-            <Text>{`${kitConfig.soilMoisture}%`}</Text>
+            <Text>Soil moisture sensor 1 </Text>
+            <Text>{`${kitConfig.sensor_one}%`}</Text>
           </Flex>
-        </Box>
-        <Box
-          maxW="lg"
-          borderWidth="1px"
-          borderRadius="lg"
-          overflow="hidden"
-          padding={"20px"}
-        >
           <Flex
             justifyContent={"space-between"}
             width={"400px"}
             alignItems={"center"}
+            paddingTop={"20px"}
           >
             <Text>Valve</Text>
             <Text
-              color={kitConfig.valve === "Active" ? "#0000FF" : "#ff0000"}
+              color={kitConfig.valve_one === "1" ? "#0000FF" : "#ff0000"}
               cursor={"pointer"}
             >
-              {kitConfig.valve}
+              {kitConfig.valve_one === "1" ? "Active" : "Inactive"}
             </Text>
           </Flex>
         </Box>
-        <Button
-          width={"300px"}
-          height={"50px"}
-          background={"#224957"}
-          borderRadius={"10px"}
-          color={"#ffffff"}
-          _hover={{
-            background: "#20DF7F",
-          }}
-          onClick={() => setisOpen(true)}
+        <Box
+          maxW="lg"
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          padding={"20px"}
         >
-          Configure
-        </Button>
-      </Flex>
-      <Modal isCentered isOpen={isOpen} onClose={() => setisOpen(false)}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Confirm</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Flex justifyContent="space-between" alignItems={"center"}>
-              <Text>Soil moisture</Text>
-              <Input
-                value={editValue}
-                onChange={(e) => seteditValue(e.target.value)}
-                width={"100px"}
-              />
-            </Flex>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              onClick={() => {
-                setisOpen(false);
-                setkitConfig({
-                  ...kitConfig,
-                  soilMoisture: editValue,
-                });
-              }}
+          <Flex
+            justifyContent={"space-between"}
+            width={"400px"}
+            alignItems={"center"}
+          >
+            <Text>Soil moisture sensor 2 </Text>
+            <Text>{`${kitConfig.sensor_two}%`}</Text>
+          </Flex>
+          <Flex
+            justifyContent={"space-between"}
+            width={"400px"}
+            alignItems={"center"}
+            paddingTop={"20px"}
+          >
+            <Text>Valve</Text>
+            <Text
+              color={kitConfig.valve_two === "1" ? "#0000FF" : "#ff0000"}
+              cursor={"pointer"}
             >
-              Done
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+              {kitConfig.valve_two === "1" ? "Active" : "Inactive"}
+            </Text>
+          </Flex>
+        </Box>
+        <Box
+          maxW="lg"
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          padding={"20px"}
+        >
+          <Flex
+            justifyContent={"space-between"}
+            width={"400px"}
+            alignItems={"center"}
+          >
+            <Text>Soil moisture sensor 3 </Text>
+            <Text>{`${kitConfig.sensor_three}%`}</Text>
+          </Flex>
+          <Flex
+            justifyContent={"space-between"}
+            width={"400px"}
+            alignItems={"center"}
+            paddingTop={"20px"}
+          >
+            <Text>Valve</Text>
+            <Text
+              color={kitConfig.valve_three === "1" ? "#0000FF" : "#ff0000"}
+              cursor={"pointer"}
+            >
+              {kitConfig.valve_three === "1" ? "Active" : "Inactive"}
+            </Text>
+          </Flex>
+        </Box>
+      </Flex>
     </Flex>
   );
 };
