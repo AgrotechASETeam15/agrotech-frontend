@@ -22,20 +22,152 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { deleteData, getData, postData } from "../../pages/api";
+import { useToast } from "@chakra-ui/react";
+// utils
+import Alert from "../../utils/Alert";
+import Loader from "../loader/loader";
 
 const DripIrrigation = () => {
+  const toast = useToast();
   const router = useRouter();
 
   const [isOpen, setisOpen] = useState(false);
+  const [isClickDelete, setisClickDelete] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
+  const [kitName, setkitName] = useState("");
+  const [updatePage, setupdatePage] = useState(false);
+  const [kits, setkits] = useState([]);
 
-  const kits = [
-    { kitName: "Kit one", id: "12323" },
-    { kitName: "Kit two", id: "93483" },
-    { kitName: "Kit three", id: "34656" },
-  ];
-  return (
+  const [selectedKitId, setselectedKitId] = useState("");
+
+  const getDripIrrigationData = async () => {
+    setisLoading(true);
+    try {
+      const response = await getData(`drip/get-kits`, false);
+      if (response && response.apiStatus === 200) {
+        setkits(response.kits);
+      } else if (response && response.status === 400) {
+        Alert({
+          title: "Error",
+          message: response.message
+            ? response.message
+            : "Something went wrong. Please try again after sometime",
+          isCloseButton: false,
+          buttonTextYes: "Ok",
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      setisLoading(false);
+      Alert({
+        title: "Error",
+        message: "Something went wrong. Please try again after sometime",
+        isCloseButton: false,
+        buttonTextYes: "Ok",
+      });
+    }
+    setisLoading(false);
+  };
+  useEffect(() => {
+    getDripIrrigationData();
+  }, [updatePage]);
+
+  const handleAddKit = async () => {
+    setisLoading(true);
+    try {
+      const response = await postData(
+        `drip/add-kit`,
+        {
+          kitName: kitName,
+          kitStatus: "active",
+          sensorOne: "50",
+          sensorTwo: "50",
+          sensorThree: "50",
+          valveOne: "0",
+          valveTwo: "0",
+          valveThree: "0",
+        },
+        false
+      );
+      if (response && response.apiStatus === 200) {
+        setupdatePage(!updatePage);
+        toast({
+          title: "Kit added",
+          description:
+            "New kit is added to your garden to automate drip irrigation.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      } else if (response && response.status === 400) {
+        Alert({
+          title: "Error",
+          message: response.message.message
+            ? response.message.message
+            : "Something went wrong. Please try again after sometime",
+          isCloseButton: false,
+          buttonTextYes: "Ok",
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      setisLoading(false);
+      Alert({
+        title: "Error",
+        message: "Something went wrong. Please try again after sometime",
+        isCloseButton: false,
+        buttonTextYes: "Ok",
+      });
+    }
+    setisLoading(false);
+  };
+  const handleDeleteKit = async (id) => {
+    setisLoading(true);
+    try {
+      const response = await deleteData(
+        `drip/delete-kit/${id}`,
+        {
+          kitId: id,
+        },
+        false
+      );
+      if (response && response.apiStatus === 200) {
+        setupdatePage(!updatePage);
+        toast({
+          title: "Kit deleted",
+          description: "Kit deleted successfully",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      } else if (response && response.status === 400) {
+        Alert({
+          title: "Error",
+          message: response.message.message
+            ? response.message.message
+            : "Something went wrong. Please try again after sometime",
+          isCloseButton: false,
+          buttonTextYes: "Ok",
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      setisLoading(false);
+      Alert({
+        title: "Error",
+        message: "Something went wrong. Please try again after sometime",
+        isCloseButton: false,
+        buttonTextYes: "Ok",
+      });
+    }
+    setisLoading(false);
+  };
+  return isLoading ? (
+    <Loader />
+  ) : (
     <Flex
       justifyContent={"center"}
       alignItems={"center"}
@@ -80,85 +212,96 @@ const DripIrrigation = () => {
               <Th>Action</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            {kits.map((kit) => (
-              <Tr key={kit.id}>
-                <Td
-                  cursor={"pointer"}
-                  onClick={() => router.push(`/kit-configuration?id=${kit.id}`)}
-                >
-                  {kit.kitName}
-                </Td>
-                <Td
-                  width={{
-                    base: "100px",
-                    lg: "300px",
-                    md: "150px",
-                    sm: "100px",
-                  }}
-                  cursor={"pointer"}
-                  onClick={() => setisOpen(true)}
-                >
-                  <Text color={"#ff0000"}> Delete</Text>
-                </Td>
+          {kits.length > 0 ? (
+            <Tbody>
+              {kits.map((kit) => (
+                <Tr key={kit.id}>
+                  <Td
+                    cursor={"pointer"}
+                    onClick={() =>
+                      router.push(`/kit-configuration?id=${kit.kit_id}`)
+                    }
+                  >
+                    {kit.kit_name}
+                  </Td>
+                  <Td
+                    width={{
+                      base: "100px",
+                      lg: "300px",
+                      md: "150px",
+                      sm: "100px",
+                    }}
+                    cursor={"pointer"}
+                    onClick={() => {
+                      setisClickDelete(true);
+                      setselectedKitId(kit.kit_id);
+                    }}
+                  >
+                    <Text color={"#ff0000"}> Delete</Text>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          ) : (
+            <Tbody>
+              <Tr>
+                <Td>No kits present</Td>
               </Tr>
-            ))}
-          </Tbody>
+            </Tbody>
+          )}
         </Table>
-      </TableContainer>{" "}
+      </TableContainer>
       <Modal isCentered isOpen={isOpen} onClose={() => setisOpen(false)}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Work in progress</ModalHeader>
+          <ModalHeader>Add new kit</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>This feature will unlock in future.</Text>
+            <Flex justifyContent="space-between" alignItems={"center"}>
+              <Text>Name of kit</Text>
+              <Input
+                value={kitName}
+                onChange={(e) => setkitName(e.target.value)}
+                width={"100px"}
+              />
+            </Flex>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={() => setisOpen(false)}>Ok</Button>
+            <Button
+              onClick={() => {
+                setisOpen(false);
+                handleAddKit();
+              }}
+            >
+              Ok
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-      {/* <Flex justifyContent={"center"} alignItems={"center"} gap={"20px"}>
-        <Button
-          width={"300px"}
-          height={"50px"}
-          background={"#224957"}
-          borderRadius={"10px"}
-          color={"#ffffff"}
-          _hover={{
-            background: "#20DF7F",
-          }}
-        >
-          Kit one
-        </Button>
-        <Button
-          width={"300px"}
-          height={"50px"}
-          background={"#224957"}
-          borderRadius={"10px"}
-          color={"#FF0000"}
-          _hover={{
-            background: "#20DF7F",
-          }}
-        >
-          Delete kit
-        </Button>
-      </Flex>
-      <Flex>
-        <Button
-          width={"300px"}
-          height={"50px"}
-          background={"#224957"}
-          borderRadius={"10px"}
-          color={"#ffffff"}
-          _hover={{
-            background: "#20DF7F",
-          }}
-        >
-          Add kit
-        </Button>
-      </Flex> */}
+      <Modal
+        isCentered
+        isOpen={isClickDelete}
+        onClose={() => setisClickDelete(false)}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Delete</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>Are you sure you want to delete this kit?</Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              onClick={() => {
+                setisClickDelete(false);
+                handleDeleteKit(selectedKitId);
+              }}
+            >
+              Yes
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 };
