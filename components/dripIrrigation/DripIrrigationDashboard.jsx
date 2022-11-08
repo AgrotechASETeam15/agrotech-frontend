@@ -29,6 +29,7 @@ import { useToast } from "@chakra-ui/react";
 // utils
 import Alert from "../../utils/Alert";
 import Loader from "../loader/loader";
+import { ImBin2 } from "react-icons/im";
 
 const DripIrrigation = () => {
   const toast = useToast();
@@ -193,9 +194,11 @@ const DripIrrigation = () => {
         <Button
           width={"150px"}
           height={"30px"}
-          background={"#224957"}
+          background={"#ffffff"}
           borderRadius={"10px"}
-          color={"#ffffff"}
+          borderWidth={"2px"}
+          borderColor={"#20DF7F"}
+          color={"#000000"}
           _hover={{
             background: "#20DF7F",
           }}
@@ -237,7 +240,13 @@ const DripIrrigation = () => {
                       setselectedKitId(kit.kit_id);
                     }}
                   >
-                    <Text color={"#ff0000"}> Delete</Text>
+                    <Flex alignItems={"center"}>
+                      <ImBin2 color={"#ff0000"} />
+                      <Text color={"#ff0000"} paddingLeft={"7px"}>
+                        {" "}
+                        Delete
+                      </Text>
+                    </Flex>
                   </Td>
                 </Tr>
               ))}
