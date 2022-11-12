@@ -1,16 +1,13 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
-import React from 'react';
+import { Box, Flex, Text } from "@chakra-ui/react";
+import React from "react";
+import SignUp from "../../components/signup/SignUp";
 
-const SignUp = () => {
+const SignUpPage = () => {
   return (
     <Box>
-      <Flex>
-        <Flex>
-          <Text>Sign In</Text>
-        </Flex>
-      </Flex>
+      <SignUp />
     </Box>
   );
 };
 
-export default SignUp;
+export default SignUpPage;

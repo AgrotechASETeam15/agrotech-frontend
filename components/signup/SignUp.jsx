@@ -1,7 +1,5 @@
 import { Box, Button, Checkbox, Flex, Input, Text } from "@chakra-ui/react";
-import React, { useState, useLayoutEffect, useRef } from "react";
-import "@fontsource/lexend-deca";
-import "@fontsource/montserrat";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 
 // api
@@ -9,23 +7,46 @@ import { postData } from "../../pages/api";
 
 // utils
 import Alert from "../../utils/Alert";
-import { ValidateEmail, ValidatePassword } from "../../utils/validations";
-import Spinner from "../loader/loader";
+import {
+  ValidateEmail,
+  ValidateName,
+  ValidatePassword,
+} from "../../utils/validations";
 
-const LogIn = () => {
+const SignUp = () => {
   const router = useRouter();
   const [isLoading, setisLoading] = useState(false);
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
-  const [errors, setErrors] = useState({ email: "", password: "" });
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    name: "",
+  });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    name: "",
+  });
 
   // validation
   const validation = () => {
     let error = {
+      name: ValidateName(credentials.name),
       email: ValidateEmail(credentials.email),
       password: ValidatePassword(credentials.password),
+      confirmPassword:
+        credentials.password !== credentials.confirmPassword
+          ? "Password not matching"
+          : ValidatePassword(credentials.confirmPassword),
     };
     setErrors(error);
-    if (error.email === "" && error.password === "") {
+    if (
+      error.email === "" &&
+      error.password === "" &&
+      error.name === "" &&
+      error.confirmPassword === ""
+    ) {
       return true;
     } else {
       return false;
@@ -37,10 +58,16 @@ const LogIn = () => {
   const updateCredentials = (e) => {
     let error = {};
     switch (e.target.name) {
+      case "name":
+        error[e.target.name] = ValidateName(e.target.value);
+        break;
       case "email":
         error[e.target.name] = ValidateEmail(e.target.value);
         break;
       case "password":
+        error[e.target.name] = ValidatePassword(e.target.value);
+        break;
+      case "confirmPassword":
         error[e.target.name] = ValidatePassword(e.target.value);
         break;
       default:
@@ -49,18 +76,20 @@ const LogIn = () => {
     setErrors({ ...errors, ...error });
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
-  console.log(errors);
+
   const handleSubmit = async () => {
     const isvalidated = validation();
-    console.log(isvalidated);
-    setisLoading(true);
+    // if (credentials.password !== credentials.confirmPassword) {
+    //   setisValid(false);
+    //   setErrors({ ...errors, confirmPassword: "Password is not matching" });
+    //   return;
+    // }
     if (isvalidated) {
       try {
-        const response = await postData(`email/login`, credentials, false);
+        const response = await postData(`email/register`, credentials, false);
         if (response && response.apiStatus === 200) {
-          router.push("/dashboard");
+          router.push("/");
         } else if (response && response.status === 400) {
-          console.log(response);
           Alert({
             title: "Error",
             message: response.message.message
@@ -83,14 +112,14 @@ const LogIn = () => {
     }
     setisLoading(false);
   };
-  return isLoading ? (
-    <Spinner />
-  ) : (
+  console.log(errors);
+  return (
     <Flex
-      justifyContent={"flex"}
+      justifyContent={"center"}
       alignItems={"center"}
       direction={"column"}
-      gap={"40px"}
+      gap={"10px"}
+      paddingTop={"30px"}
       //   height={'100vh'}
     >
       <Flex justifyContent={"center"} alignItems={"center"}>
@@ -110,7 +139,7 @@ const LogIn = () => {
           fontSize={"64px"}
           lineHeight={"80px"}
           color={"#224957"}
-          paddingTop={"100px"}
+          // paddingTop={"100px"}
         >
           AGROTECH
         </Text>
@@ -122,26 +151,48 @@ const LogIn = () => {
             justifyContent={"center"}
             alignItems={"center"}
             direction={"column"}
+            position={"relative"}
           >
             <Flex
               gap={"35px"}
               direction={"column"}
               justifyContent={"center"}
               alignItems={"center"}
-              position={"relative"}
             >
               <Input
                 width={"300px"}
                 height={"50px"}
-                type="email"
-                borderColor={"#20DF7F"}
-                //color={'white'}
-
+                type="text"
                 // background: #224957;
                 // border-radius: 10px;
-                _hover={{
-                  borderColor: "#89F3BD",
+                borderColor={"#89F3BD"}
+                _placeholder={{
+                  color: "#000000",
                 }}
+                color={"#000000"}
+                background={"#FFFFFF"}
+                borderRadius={"10px"}
+                name="name"
+                id="name"
+                placeholder="Name"
+                onChange={(e) => updateCredentials(e)}
+              />
+              <Text
+                color={"#ff0000"}
+                position={"absolute"}
+                top={"50"}
+                left={"2"}
+                fontSize={"12"}
+              >
+                {errors.name}
+              </Text>
+              <Input
+                width={"300px"}
+                height={"50px"}
+                type="email"
+                // background: #224957;
+                // border-radius: 10px;
+                borderColor={"#89F3BD"}
                 _placeholder={{
                   color: "#000000",
                 }}
@@ -150,12 +201,13 @@ const LogIn = () => {
                 name="email"
                 id="email"
                 placeholder="Email"
+                color={"#000000"}
                 onChange={(e) => updateCredentials(e)}
               />
               <Text
                 color={"#ff0000"}
                 position={"absolute"}
-                top={"50"}
+                top={"136"}
                 left={"2"}
                 fontSize={"12"}
               >
@@ -167,13 +219,10 @@ const LogIn = () => {
                 type="password"
                 name="password"
                 id="password"
+                borderColor={"#89F3BD"}
                 placeholder="Password"
                 background={"#FFFFFF"}
-                borderColor={"#20DF7F"}
                 borderRadius={"10px"}
-                _hover={{
-                  borderColor: "#89F3BD",
-                }}
                 _placeholder={{
                   color: "#000000",
                 }}
@@ -183,41 +232,51 @@ const LogIn = () => {
               <Text
                 color={"#ff0000"}
                 position={"absolute"}
-                bottom={"-5"}
+                top={"220"}
                 left={"2"}
                 fontSize={"12"}
               >
                 {errors.password}
               </Text>
+              <Input
+                width={"300px"}
+                height={"50px"}
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                placeholder="Confirm Password"
+                borderColor={"#89F3BD"}
+                background={"#FFFFFF"}
+                borderRadius={"10px"}
+                _placeholder={{
+                  color: "#000000",
+                }}
+                color={"#000000"}
+                onChange={(e) => updateCredentials(e)}
+              />
+              <Text
+                color={"#ff0000"}
+                position={"absolute"}
+                top={"304"}
+                left={"2"}
+                fontSize={"12"}
+              >
+                {errors.confirmPassword}
+              </Text>
             </Flex>
-            <Flex mt={"18px"} gap={"14px"}>
-              <a href="#forgot">
-                <Text
-                  fontFamily={"Montserrat"}
-                  fontStyle={"normal"}
-                  fontWeight={"500"}
-                  fontSize={"14px"}
-                  lineHeight={"17px"}
-                  color={"#000000"}
-                >
-                  Forgot Password?
-                </Text>
-              </a>
-            </Flex>
-            <Flex justifyContent={"center"} alignItems={"center"} mt={"20px"}>
+            <Flex justifyContent={"center"} alignItems={"center"} mt={"30px"}>
               <Button
                 width={"300px"}
                 height={"50px"}
                 background={"#20DF7F"}
                 borderRadius={"10px"}
-                color={"#ffffff"}
+                color={"#224957"}
                 _hover={{
-                  background: "#3FE992",
-                  boxShadow: "2px 2px",
+                  background: "#20DF7F",
                 }}
                 onClick={() => handleSubmit()}
               >
-                Log In
+                Register
               </Button>
             </Flex>
             <Flex justifyContent={"flex-end"} alignItems={"center"}>
@@ -230,7 +289,7 @@ const LogIn = () => {
                 color={"#000000"}
                 paddingTop={"15px"}
               >
-                New User?
+                Already a User?
               </Text>
               <Text
                 fontFamily={"Lexend Deca"}
@@ -243,9 +302,9 @@ const LogIn = () => {
                 color={"#000000"}
                 paddingTop={"15px"}
                 cursor={"pointer"}
-                onClick={() => router.push("/sign-up")}
+                onClick={() => router.push("/login")}
               >
-                Sign Up
+                Log In
               </Text>
             </Flex>
           </Flex>
@@ -255,4 +314,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default SignUp;
