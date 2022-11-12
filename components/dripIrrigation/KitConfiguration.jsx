@@ -70,7 +70,7 @@ const KitConfiguration = (props) => {
       alignItems={"center"}
       direction={"column"}
       gap={"40px"}
-      paddingTop={"45px"}
+      paddingTop={"30px"}
       //   height={'100vh'}
     >
       <Flex justifyContent={"center"} alignItems={"center"}>
@@ -91,15 +91,17 @@ const KitConfiguration = (props) => {
         alignItems={"center"}
         gap={"20px"}
         flexDirection={"column"}
-        paddingTop={"60px"}
+        paddingTop={"10px"}
+        zIndex={"1"}
       >
         <Text fontSize={20}>Kit Name: {kitConfig.kit_name}</Text>
         <Box
           maxW="lg"
-          borderWidth="1px"
           borderRadius="lg"
           overflow="hidden"
           padding={"20px"}
+          borderColor={"#20DF7F"}
+          borderWidth={"medium"}
         >
           <Flex
             justifyContent={"space-between"}
@@ -126,10 +128,11 @@ const KitConfiguration = (props) => {
         </Box>
         <Box
           maxW="lg"
-          borderWidth="1px"
+          borderWidth={"medium"}
           borderRadius="lg"
           overflow="hidden"
           padding={"20px"}
+          borderColor={"#20DF7F"}
         >
           <Flex
             justifyContent={"space-between"}
@@ -156,10 +159,11 @@ const KitConfiguration = (props) => {
         </Box>
         <Box
           maxW="lg"
-          borderWidth="1px"
+          borderWidth={"medium"}
           borderRadius="lg"
           overflow="hidden"
           padding={"20px"}
+          borderColor={"#20DF7F"}
         >
           <Flex
             justifyContent={"space-between"}
