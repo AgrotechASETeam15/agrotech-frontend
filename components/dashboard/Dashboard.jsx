@@ -89,24 +89,11 @@ const Dashboard = () => {
           _hover={{
             background: "#20DF7F",
           }}
-          onClick={() => setisOpen(true)}
+          onClick={() => router.push("/greenhouse")}
         >
           Green House
         </Button>
       </Flex>
-      <Modal isCentered isOpen={isOpen} onClose={() => setisOpen(false)}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Work in progress</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text>This feature will unlock in feature.</Text>
-          </ModalBody>
-          <ModalFooter>
-            <Button onClick={() => setisOpen(false)}>Ok</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </Flex>
   );
 };
