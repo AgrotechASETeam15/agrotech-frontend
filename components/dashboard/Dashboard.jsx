@@ -52,7 +52,7 @@ const Dashboard = () => {
           width={"300px"}
           height={"50px"}
           background={"#FFFFFF"}
-          borderWidth={'1px'}
+          borderWidth={"1px"}
           borderColor={"#20DF7F"}
           borderRadius={"10px"}
           color={"#000000"}
@@ -67,14 +67,14 @@ const Dashboard = () => {
           width={"300px"}
           height={"50px"}
           background={"#FFFFFF"}
-          borderWidth={'1px'}
+          borderWidth={"1px"}
           borderColor={"#20DF7F"}
           borderRadius={"10px"}
           color={"#000000"}
           _hover={{
             background: "#20DF7F",
           }}
-          onClick={() => setisOpen(true)}
+          onClick={() => router.push("/pesticides")}
         >
           Pesticides
         </Button>
@@ -82,7 +82,7 @@ const Dashboard = () => {
           width={"300px"}
           height={"50px"}
           background={"#FFFFFF"}
-          borderWidth={'1px'}
+          borderWidth={"1px"}
           borderColor={"#20DF7F"}
           borderRadius={"10px"}
           color={"#000000"}
