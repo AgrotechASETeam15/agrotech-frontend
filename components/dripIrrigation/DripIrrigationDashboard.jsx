@@ -22,6 +22,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { deleteData, getData, postData } from "../../pages/api";
@@ -30,6 +31,7 @@ import { useToast } from "@chakra-ui/react";
 import Alert from "../../utils/Alert";
 import Loader from "../loader/loader";
 import { ImBin2 } from "react-icons/im";
+import img1 from "../../assets/nodata.png"
 
 const DripIrrigation = () => {
   const toast = useToast();
@@ -255,9 +257,20 @@ const DripIrrigation = () => {
             </Tbody>
           ) : (
             <Tbody>
-              <Tr>
-                <Td>No kits present</Td>
-              </Tr>
+              <Flex justifyContent={"center"} paddingTop={"20px"}>
+                <Image src={img1} height={"150px"} width={"275px"} />
+              </Flex>
+              <Flex justifyContent={"center"} paddingTop={"7px"}>
+                <Text 
+                fontFamily={"Lexend Deca"}
+                fontStyle={"normal"}
+                fontWeight={"100"}
+                fontSize={"36px"}
+                lineHeight={"35px"}
+                color={"#224957"}>
+                No Kits Found
+                </Text>
+              </Flex>
             </Tbody>
           )}
         </Table>
