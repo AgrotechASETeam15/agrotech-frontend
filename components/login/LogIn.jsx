@@ -136,6 +136,7 @@ const LogIn = () => {
                 type="email"
                 borderColor={"#20DF7F"}
                 //color={'white'}
+
                 // background: #224957;
                 // border-radius: 10px;
                 _hover={{
