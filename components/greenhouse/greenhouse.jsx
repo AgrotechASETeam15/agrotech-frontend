@@ -31,6 +31,7 @@ import Alert from "../../utils/Alert";
 import Loader from "../loader/loader";
 import { ImBin2 } from "react-icons/im";
 
+const MINUTE_MS = 200;
 const GreenHouse = () => {
   const toast = useToast();
   const router = useRouter();
@@ -40,16 +41,19 @@ const GreenHouse = () => {
   const [isLoading, setisLoading] = useState(false);
   const [kitName, setkitName] = useState("");
   const [updatePage, setupdatePage] = useState(false);
-  const [kits, setkits] = useState([]);
+  const [kit, setkit] = useState();
 
   const [selectedKitId, setselectedKitId] = useState("");
 
-  const getDripIrrigationData = async () => {
-    setisLoading(true);
+  const getGreenHouseData = async () => {
+    // setisLoading(true);
     try {
-      const response = await getData(`drip/get-kits`, false);
+      const response = await getData(
+        `greenhouse/get-kit/${"be938215-a2c2-4b66-b994-40518a55368e"}`,
+        false
+      );
       if (response && response.apiStatus === 200) {
-        setkits(response.kits);
+        setkit(response.kit);
       } else if (response && response.status === 400) {
         Alert({
           title: "Error",
@@ -62,7 +66,7 @@ const GreenHouse = () => {
       }
     } catch (e) {
       console.log(e);
-      setisLoading(false);
+      // setisLoading(false);
       Alert({
         title: "Error",
         message: "Something went wrong. Please try again after sometime",
@@ -70,104 +74,20 @@ const GreenHouse = () => {
         buttonTextYes: "Ok",
       });
     }
-    setisLoading(false);
+    // setisLoading(false);
   };
 
   useEffect(() => {
-    getDripIrrigationData();
-  }, [updatePage]);
+    if (!router.isReady) return;
+    // updateKit(router.query.id);
+    getGreenHouseData();
+    const interval = setInterval(() => {
+      getGreenHouseData();
+    }, MINUTE_MS);
 
-  const handleAddKit = async () => {
-    setisLoading(true);
-    try {
-      const response = await postData(
-        `drip/add-kit`,
-        {
-          kitName: kitName,
-          kitStatus: "active",
-          sensorOne: "50",
-          sensorTwo: "50",
-          sensorThree: "50",
-          valveOne: "0",
-          valveTwo: "0",
-          valveThree: "0",
-        },
-        false
-      );
-      if (response && response.apiStatus === 200) {
-        setupdatePage(!updatePage);
-        toast({
-          title: "Kit added",
-          description:
-            "New kit is added to your garden to automate drip irrigation.",
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
-      } else if (response && response.status === 400) {
-        Alert({
-          title: "Error",
-          message: response.message.message
-            ? response.message.message
-            : "Something went wrong. Please try again after sometime",
-          isCloseButton: false,
-          buttonTextYes: "Ok",
-        });
-      }
-    } catch (e) {
-      console.log(e);
-      setisLoading(false);
-      Alert({
-        title: "Error",
-        message: "Something went wrong. Please try again after sometime",
-        isCloseButton: false,
-        buttonTextYes: "Ok",
-      });
-    }
-    setisLoading(false);
-  };
+    return () => clearInterval(interval);
+  }, [router.isReady]);
 
-  const handleDeleteKit = async (id) => {
-    setisLoading(true);
-    try {
-      const response = await deleteData(
-        `drip/delete-kit/${id}`,
-        {
-          kitId: id,
-        },
-        false
-      );
-      if (response && response.apiStatus === 200) {
-        setupdatePage(!updatePage);
-        toast({
-          title: "Kit deleted",
-          description: "Kit deleted successfully",
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
-      } else if (response && response.status === 400) {
-        Alert({
-          title: "Error",
-          message: response.message.message
-            ? response.message.message
-            : "Something went wrong. Please try again after sometime",
-          isCloseButton: false,
-          buttonTextYes: "Ok",
-        });
-      }
-    } catch (e) {
-      console.log(e);
-      setisLoading(false);
-      Alert({
-        title: "Error",
-        message: "Something went wrong. Please try again after sometime",
-        isCloseButton: false,
-        buttonTextYes: "Ok",
-      });
-    }
-    setisLoading(false);
-  };
   return isLoading ? (
     <Loader />
   ) : (
@@ -200,7 +120,7 @@ const GreenHouse = () => {
             alignItems={"center"}
           >
             <Text>Temperature :</Text>
-            <Text>0</Text>
+            <Text>{kit && kit.tempreture}</Text>
           </Flex>
         </Box>
         {/* <Box maxW="lg" borderRadius="lg" overflow="hidden" padding={"20px"}>
@@ -230,7 +150,7 @@ const GreenHouse = () => {
             alignItems={"center"}
           >
             <Text>Humidity :</Text>
-            <Text>0</Text>
+            <Text>{kit && kit.humidity}</Text>
           </Flex>
         </Box>
         <Box maxW="lg" borderRadius="lg" overflow="hidden" padding={"20px"}>
@@ -240,7 +160,7 @@ const GreenHouse = () => {
             alignItems={"center"}
           >
             <Text>Smoke :</Text>
-            <Text>0</Text>
+            <Text>{kit && kit.smoke}</Text>
           </Flex>
         </Box>
         <Box maxW="lg" borderRadius="lg" overflow="hidden" padding={"20px"}>
@@ -250,7 +170,7 @@ const GreenHouse = () => {
             alignItems={"center"}
           >
             <Text>Soil Moisture :</Text>
-            <Text>0</Text>
+            <Text>{kit && kit.soil_moisture}</Text>
           </Flex>
         </Box>
         <Box maxW="lg" borderRadius="lg" overflow="hidden" padding={"20px"}>
@@ -260,7 +180,7 @@ const GreenHouse = () => {
             alignItems={"center"}
           >
             <Text>Light density :</Text>
-            <Text>0</Text>
+            <Text>{kit && kit.light_density}</Text>
           </Flex>
         </Box>
         {/* <Box maxW="lg" borderRadius="lg" overflow="hidden" padding={"20px"}>

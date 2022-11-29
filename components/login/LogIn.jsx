@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Flex, Input, Text } from "@chakra-ui/react";
-import React, { useState, useLayoutEffect, useRef } from "react";
+import React, { useState, useLayoutEffect, useRef, useContext } from "react";
 import "@fontsource/lexend-deca";
 import "@fontsource/montserrat";
 import { useRouter } from "next/router";
@@ -12,8 +12,14 @@ import Alert from "../../utils/Alert";
 import { ValidateEmail, ValidatePassword } from "../../utils/validations";
 import Spinner from "../loader/loader";
 
+// context
+import { AuthContext } from "../../pages/context/AuthContext";
+
 const LogIn = () => {
   const router = useRouter();
+
+  // const { isAuthenticated, setisAuthenticated } = useContext(AuthContext);
+
   const [isLoading, setisLoading] = useState(false);
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
@@ -58,6 +64,8 @@ const LogIn = () => {
       try {
         const response = await postData(`email/login`, credentials, false);
         if (response && response.apiStatus === 200) {
+          localStorage.setItem("agrotech_auth", true);
+          // setisAuthenticated(true);
           router.push("/dashboard");
         } else if (response && response.status === 400) {
           console.log(response);

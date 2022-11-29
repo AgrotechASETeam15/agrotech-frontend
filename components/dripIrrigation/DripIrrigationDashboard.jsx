@@ -31,7 +31,7 @@ import { useToast } from "@chakra-ui/react";
 import Alert from "../../utils/Alert";
 import Loader from "../loader/loader";
 import { ImBin2 } from "react-icons/im";
-import img1 from "../../assets/nodata.png"
+import img1 from "../../assets/nodata.png";
 
 const DripIrrigation = () => {
   const toast = useToast();
@@ -257,20 +257,25 @@ const DripIrrigation = () => {
             </Tbody>
           ) : (
             <Tbody>
-              <Flex justifyContent={"center"} paddingTop={"20px"}>
-                <Image src={img1} height={"150px"} width={"275px"} />
-              </Flex>
-              <Flex justifyContent={"center"} paddingTop={"7px"}>
-                <Text 
-                fontFamily={"Lexend Deca"}
-                fontStyle={"normal"}
-                fontWeight={"100"}
-                fontSize={"36px"}
-                lineHeight={"35px"}
-                color={"#224957"}>
-                No Kits Found
-                </Text>
-              </Flex>
+              <Tr>
+                <Td>
+                  <Flex justifyContent={"center"} paddingTop={"20px"}>
+                    <Image src={img1} height={"150px"} width={"275px"} />
+                  </Flex>
+                  <Flex justifyContent={"center"} paddingTop={"7px"}>
+                    <Text
+                      fontFamily={"Lexend Deca"}
+                      fontStyle={"normal"}
+                      fontWeight={"100"}
+                      fontSize={"36px"}
+                      lineHeight={"35px"}
+                      color={"#224957"}
+                    >
+                      No Kits Found
+                    </Text>
+                  </Flex>
+                </Td>
+              </Tr>
             </Tbody>
           )}
         </Table>
@@ -294,6 +299,7 @@ const DripIrrigation = () => {
             <Button
               onClick={() => {
                 setisOpen(false);
+                setkitName("");
                 handleAddKit();
               }}
             >
