@@ -15,10 +15,12 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
-import { getData } from "../../pages/api";
+import { getData, putData } from "../../pages/api";
 
 import Alert from "../../utils/Alert";
 import Loader from "../loader/loader";
+
+const MINUTE_MS = 200;
 
 const KitConfiguration = (props) => {
   const router = useRouter();
@@ -29,7 +31,7 @@ const KitConfiguration = (props) => {
   const [isLoading, setisLoading] = useState(false);
 
   const getKitData = async (id) => {
-    setisLoading(true);
+    // setisLoading(true);
     try {
       const response = await getData(`drip/get-kit/${id}`, false);
       if (response && response.apiStatus === 200) {
@@ -46,7 +48,7 @@ const KitConfiguration = (props) => {
       }
     } catch (e) {
       console.log(e);
-      setisLoading(false);
+      // setisLoading(false);
       Alert({
         title: "Error",
         message: "Something went wrong. Please try again after sometime",
@@ -54,14 +56,50 @@ const KitConfiguration = (props) => {
         buttonTextYes: "Ok",
       });
     }
-    setisLoading(false);
+    // setisLoading(false);
   };
+
+  const updateKit = async (id) => {
+    // setisLoading(true);
+    try {
+      const response = await putData(`drip/update-kit`, false);
+      if (response && response.apiStatus === 200) {
+        // setkitConfig(response.kit);
+        console.log(response);
+      } else if (response && response.status === 400) {
+        Alert({
+          title: "Error",
+          message: response.message
+            ? response.message
+            : "Something went wrong. Please try again after sometime",
+          isCloseButton: false,
+          buttonTextYes: "Ok",
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      // setisLoading(false);
+      Alert({
+        title: "Error",
+        message: "Something went wrong. Please try again after sometime",
+        isCloseButton: false,
+        buttonTextYes: "Ok",
+      });
+    }
+    // setisLoading(false);
+  };
+
   useEffect(() => {
     if (!router.isReady) return;
+    // updateKit(router.query.id);
     getKitData(router.query.id);
+    const interval = setInterval(() => {
+      getKitData(router.query.id);
+    }, MINUTE_MS);
+
+    return () => clearInterval(interval);
   }, [router.isReady]);
 
-  console.log(kitConfig);
   return isLoading ? (
     <Loader />
   ) : (

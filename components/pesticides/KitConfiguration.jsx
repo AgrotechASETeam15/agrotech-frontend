@@ -20,6 +20,8 @@ import { getData } from "../../pages/api";
 import Alert from "../../utils/Alert";
 import Loader from "../loader/loader";
 
+const MINUTE_MS = 200;
+
 const KitConfiguration = (props) => {
   const router = useRouter();
 
@@ -29,7 +31,7 @@ const KitConfiguration = (props) => {
   const [isLoading, setisLoading] = useState(false);
 
   const getKitData = async (id) => {
-    setisLoading(true);
+    // setisLoading(true);
     try {
       const response = await getData(`pesticides/get-kit/${id}`, false);
       if (response && response.apiStatus === 200) {
@@ -47,7 +49,7 @@ const KitConfiguration = (props) => {
       }
     } catch (e) {
       console.log(e);
-      setisLoading(false);
+      // setisLoading(false);
       Alert({
         title: "Error",
         message: "Something went wrong. Please try again after sometime",
@@ -55,11 +57,16 @@ const KitConfiguration = (props) => {
         buttonTextYes: "Ok",
       });
     }
-    setisLoading(false);
+    // setisLoading(false);
   };
   useEffect(() => {
     if (!router.isReady) return;
     getKitData(router.query.id);
+    const interval = setInterval(() => {
+      getKitData(router.query.id);
+    }, MINUTE_MS);
+
+    return () => clearInterval(interval);
   }, [router.isReady]);
 
   console.log(kitConfig);
@@ -129,10 +136,20 @@ const KitConfiguration = (props) => {
           >
             <Text>Valve</Text>
             <Text
-              color={kitConfig.valve_one === "1" ? "#0000FF" : "#ff0000"}
+              color={
+                parseFloat(kitConfig.sensor_one) +
+                  parseFloat(kitConfig.sensor_two) / 2 >
+                50
+                  ? "#ff0000"
+                  : "#0000FF"
+              }
               cursor={"pointer"}
             >
-              {kitConfig.valve_one === "1" ? "Active" : "Inactive"}
+              {parseFloat(kitConfig.sensor_one) +
+                parseFloat(kitConfig.sensor_two) / 2 >
+              50
+                ? "Inactive"
+                : "Active"}
             </Text>
           </Flex>
         </Box>
