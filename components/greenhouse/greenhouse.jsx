@@ -120,7 +120,7 @@ const GreenHouse = () => {
             alignItems={"center"}
           >
             <Text>Temperature :</Text>
-            <Text>{kit && kit.tempreture}</Text>
+            <Text>{kit && kit.tempreture} °C</Text>
           </Flex>
         </Box>
         {/* <Box maxW="lg" borderRadius="lg" overflow="hidden" padding={"20px"}>
@@ -150,7 +150,7 @@ const GreenHouse = () => {
             alignItems={"center"}
           >
             <Text>Humidity :</Text>
-            <Text>{kit && kit.humidity}</Text>
+            <Text>{kit && kit.humidity}%</Text>
           </Flex>
         </Box>
         <Box maxW="lg" borderRadius="lg" overflow="hidden" padding={"20px"}>
@@ -159,8 +159,8 @@ const GreenHouse = () => {
             width={"400px"}
             alignItems={"center"}
           >
-            <Text>Smoke :</Text>
-            <Text>{kit && kit.smoke}</Text>
+            <Text>Smoke Intencity:</Text>
+            <Text>{kit && kit.smoke} ppm</Text>
           </Flex>
         </Box>
         <Box maxW="lg" borderRadius="lg" overflow="hidden" padding={"20px"}>
@@ -170,10 +170,10 @@ const GreenHouse = () => {
             alignItems={"center"}
           >
             <Text>Soil Moisture :</Text>
-            <Text>{kit && kit.soil_moisture}</Text>
+            <Text>{kit && kit.soil_moisture}%</Text>
           </Flex>
         </Box>
-        <Box maxW="lg" borderRadius="lg" overflow="hidden" padding={"20px"}>
+        {/* <Box maxW="lg" borderRadius="lg" overflow="hidden" padding={"20px"}>
           <Flex
             justifyContent={"space-between"}
             width={"400px"}
@@ -182,7 +182,7 @@ const GreenHouse = () => {
             <Text>Light density :</Text>
             <Text>{kit && kit.light_density}</Text>
           </Flex>
-        </Box>
+        </Box> */}
         {/* <Box maxW="lg" borderRadius="lg" overflow="hidden" padding={"20px"}>
           <Flex
             justifyContent={"space-between"}

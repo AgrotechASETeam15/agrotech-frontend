@@ -137,15 +137,19 @@ const KitConfiguration = (props) => {
             <Text>Valve</Text>
             <Text
               color={
-                (kitConfig.sensor_one + kitConfig.sensor_two) / 2 > 50
-                  ? "#0000FF"
-                  : "#ff0000"
+                parseFloat(kitConfig.sensor_one) +
+                  parseFloat(kitConfig.sensor_two) / 2 >
+                50
+                  ? "#ff0000"
+                  : "#0000FF"
               }
               cursor={"pointer"}
             >
-              {(kitConfig.sensor_one + kitConfig.sensor_two) / 2 > 50
-                ? "Active"
-                : "Inactive"}
+              {parseFloat(kitConfig.sensor_one) +
+                parseFloat(kitConfig.sensor_two) / 2 >
+              50
+                ? "Inactive"
+                : "Active"}
             </Text>
           </Flex>
         </Box>
