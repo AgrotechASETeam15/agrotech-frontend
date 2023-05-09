@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
-import { getData, putData } from "../../pages/api";
+import { getData } from "../../pages/api";
 
 import Alert from "../../utils/Alert";
 import Loader from "../loader/loader";
@@ -33,8 +33,9 @@ const KitConfiguration = (props) => {
   const getKitData = async (id) => {
     // setisLoading(true);
     try {
-      const response = await getData(`drip/get-kit/${id}`, false);
+      const response = await getData(`pesticides/get-kit/${id}`, false);
       if (response && response.apiStatus === 200) {
+        console.log(response);
         setkitConfig(response.kit);
       } else if (response && response.status === 400) {
         Alert({
@@ -58,40 +59,8 @@ const KitConfiguration = (props) => {
     }
     // setisLoading(false);
   };
-
-  const updateKit = async (id) => {
-    // setisLoading(true);
-    try {
-      const response = await putData(`drip/update-kit`, false);
-      if (response && response.apiStatus === 200) {
-        // setkitConfig(response.kit);
-        console.log(response);
-      } else if (response && response.status === 400) {
-        Alert({
-          title: "Error",
-          message: response.message
-            ? response.message
-            : "Something went wrong. Please try again after sometime",
-          isCloseButton: false,
-          buttonTextYes: "Ok",
-        });
-      }
-    } catch (e) {
-      console.log(e);
-      // setisLoading(false);
-      Alert({
-        title: "Error",
-        message: "Something went wrong. Please try again after sometime",
-        isCloseButton: false,
-        buttonTextYes: "Ok",
-      });
-    }
-    // setisLoading(false);
-  };
-
   useEffect(() => {
     if (!router.isReady) return;
-    // updateKit(router.query.id);
     getKitData(router.query.id);
     const interval = setInterval(() => {
       getKitData(router.query.id);
@@ -100,6 +69,7 @@ const KitConfiguration = (props) => {
     return () => clearInterval(interval);
   }, [router.isReady]);
 
+  console.log(kitConfig);
   return isLoading ? (
     <Loader />
   ) : (
@@ -146,7 +116,7 @@ const KitConfiguration = (props) => {
             width={"400px"}
             alignItems={"center"}
           >
-            <Text>Soil moisture sensor 1 </Text>
+            <Text>Soil NPK sensor 1 </Text>
             <Text>{`${kitConfig.sensor_one}%`}</Text>
           </Flex>
           <Flex
@@ -155,29 +125,7 @@ const KitConfiguration = (props) => {
             alignItems={"center"}
             paddingTop={"20px"}
           >
-            <Text>Valve</Text>
-            <Text
-              color={kitConfig.valve_one === "1" ? "#0000FF" : "#ff0000"}
-              cursor={"pointer"}
-            >
-              {kitConfig.valve_one === "1" ? "Active" : "Inactive"}
-            </Text>
-          </Flex>
-        </Box>
-        <Box
-          maxW="lg"
-          borderWidth={"medium"}
-          borderRadius="lg"
-          overflow="hidden"
-          padding={"20px"}
-          borderColor={"#20DF7F"}
-        >
-          <Flex
-            justifyContent={"space-between"}
-            width={"400px"}
-            alignItems={"center"}
-          >
-            <Text>Soil moisture sensor 2 </Text>
+            <Text>Soil NPK sensor 2 </Text>
             <Text>{`${kitConfig.sensor_two}%`}</Text>
           </Flex>
           <Flex
@@ -188,41 +136,20 @@ const KitConfiguration = (props) => {
           >
             <Text>Valve</Text>
             <Text
-              color={kitConfig.valve_two === "1" ? "#0000FF" : "#ff0000"}
+              color={
+                parseFloat(kitConfig.sensor_one) +
+                  parseFloat(kitConfig.sensor_two) / 2 >
+                50
+                  ? "#ff0000"
+                  : "#0000FF"
+              }
               cursor={"pointer"}
             >
-              {kitConfig.valve_two === "1" ? "Active" : "Inactive"}
-            </Text>
-          </Flex>
-        </Box>
-        <Box
-          maxW="lg"
-          borderWidth={"medium"}
-          borderRadius="lg"
-          overflow="hidden"
-          padding={"20px"}
-          borderColor={"#20DF7F"}
-        >
-          <Flex
-            justifyContent={"space-between"}
-            width={"400px"}
-            alignItems={"center"}
-          >
-            <Text>Soil moisture sensor 3 </Text>
-            <Text>{`${kitConfig.sensor_three}%`}</Text>
-          </Flex>
-          <Flex
-            justifyContent={"space-between"}
-            width={"400px"}
-            alignItems={"center"}
-            paddingTop={"20px"}
-          >
-            <Text>Valve</Text>
-            <Text
-              color={kitConfig.valve_three === "1" ? "#0000FF" : "#ff0000"}
-              cursor={"pointer"}
-            >
-              {kitConfig.valve_three === "1" ? "Active" : "Inactive"}
+              {parseFloat(kitConfig.sensor_one) +
+                parseFloat(kitConfig.sensor_two) / 2 >
+              50
+                ? "Inactive"
+                : "Active"}
             </Text>
           </Flex>
         </Box>

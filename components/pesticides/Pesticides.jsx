@@ -33,7 +33,7 @@ import Loader from "../loader/loader";
 import { ImBin2 } from "react-icons/im";
 import img1 from "../../assets/nodata.png";
 
-const DripIrrigation = () => {
+const Pesticides = () => {
   const toast = useToast();
   const router = useRouter();
 
@@ -46,10 +46,10 @@ const DripIrrigation = () => {
 
   const [selectedKitId, setselectedKitId] = useState("");
 
-  const getDripIrrigationData = async () => {
+  const getPesticidesData = async () => {
     setisLoading(true);
     try {
-      const response = await getData(`drip/get-kits`, false);
+      const response = await getData(`pesticides/get-kits`, false);
       if (response && response.apiStatus === 200) {
         setkits(response.kits);
       } else if (response && response.status === 400) {
@@ -76,23 +76,20 @@ const DripIrrigation = () => {
   };
 
   useEffect(() => {
-    getDripIrrigationData();
+    getPesticidesData();
   }, [updatePage]);
 
   const handleAddKit = async () => {
     setisLoading(true);
     try {
       const response = await postData(
-        `drip/add-kit`,
+        `pesticides/add-kit`,
         {
           kitName: kitName,
           kitStatus: "active",
           sensorOne: "50",
           sensorTwo: "50",
-          sensorThree: "50",
           valveOne: "0",
-          valveTwo: "0",
-          valveThree: "0",
         },
         false
       );
@@ -133,7 +130,7 @@ const DripIrrigation = () => {
     setisLoading(true);
     try {
       const response = await deleteData(
-        `drip/delete-kit/${id}`,
+        `pesticides/delete-kit/${id}`,
         {
           kitId: id,
         },
@@ -191,7 +188,7 @@ const DripIrrigation = () => {
           lineHeight={"80px"}
           color={"#224957"}
         >
-          Drip Irrigation
+          Pesticides
         </Text>
       </Flex>
       <Flex alignSelf={"flex-end"} marginTop={"20px"}>
@@ -226,7 +223,9 @@ const DripIrrigation = () => {
                   <Td
                     cursor={"pointer"}
                     onClick={() =>
-                      router.push(`/kit-configuration?id=${kit.kit_id}`)
+                      router.push(
+                        `/pesticides-kit-configuration?id=${kit.kit_id}`
+                      )
                     }
                   >
                     {kit.kit_name}
@@ -335,4 +334,4 @@ const DripIrrigation = () => {
     </Flex>
   );
 };
-export default DripIrrigation;
+export default Pesticides;
